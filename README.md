@@ -1,4 +1,5 @@
-# Brew42 - A tool to install Homebrew on 42US computers without needing admin privileges. #
+# Brew42 #
+## A tool to install Homebrew on 42US iMacs without admin access. ##
 ### What it does: ###
 * Goes through all of the necessary steps to install Homebrew on 42US iMacs and performs any actions needed such as:
   * Checks for local goinfre directory, creates one if it doesn't exist.
@@ -10,15 +11,16 @@
 - - - -
 
 ## Usage ##
-**1.** Open terminal where you want to save the script.
-**2.** Type `git clone https://github.com/Etregoning/brew42 && cd $_`
-**3.** Type sh brew42.sh
-**4.** Follow prompts
+**1.** Open terminal where you want to save the script. <br>
+**2.** Type `git clone https://github.com/Etregoning/brew42 && cd $_` <br>
+**3.** Type sh brew42.sh <br>
+**4.** Follow prompts <br>
 
 - - - -
 
 ## Customization ##
 ### Example Script ###
+#### Replace `PACKAGE-NAME` with name of package you want to add. No caps. ####
 ```
 if [ ! -e "$HOME/goinfre/brew/bin/PACKAGE-NAME" ] ; then
   brew install PACKAGE-NAME

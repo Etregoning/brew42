@@ -51,7 +51,7 @@ done
 #  DELETE BETWEEN THE * TO REMOVE THE PROMPT
 
 # ******************************************************************************
-# Prompt to install / update Node 
+# Prompt to install / update Node
 while true ; do
 	if [ ! -e "$HOME/goinfre/brew/bin/node" ] ; then
 		read -p "\nWould you like to install node? [y/n] " yn
@@ -76,10 +76,10 @@ while true ; do
 	fi
 done
 echo "--------------------"
-# *******************************************************************************
+# ******************************************************************************
 
 
-# *******************************************************************************
+# ******************************************************************************
 # Prompt to update npm
 while true ; do
 	if [ -e "$HOME/goinfre/brew/bin/node" ] ; then
@@ -110,12 +110,12 @@ echo "--------------------"
 # ******************************************************************************
 
 
-# *******************************************************************************
+# ******************************************************************************
 # Prompt to install / update bower
 while true ; do
 	if [ ! -e "$HOME/goinfre/brew/bin/bower" ] ; then
 		read -p "Would you like to install Bower? [y/n] " yn
-		case $yn in 
+		case $yn in
 			[Yy]* ) brew install bower ; break ;;
 			[Nn]* ) break ;;
 			* ) echo "${RED}Please answer y for yes or n for no.${RESET}" ;;
@@ -137,6 +137,37 @@ while true ; do
 done
 echo "--------------------"
 # ******************************************************************************
+
+# ------------------------------------------------------------------------------
+# *********************INSERT CUSTOM PACKAGES HERE******************************
+# ------------------------------------------------------------------------------
+
+# Remove the # between the if and the echo statements and replace PACKAGE-NAME with the package you want to add (no caps)
+
+#if [ ! -e "$HOME/goinfre/brew/bin/PACKAGE-NAME" ] ; then
+#  brew install PACKAGE-NAME
+#		if [ -e "$HOME/goinfre/brew/bin/PACKAGE-NAME" ] ; then
+#			echo "${GREEN}PACKAGE-NAME successfully installed. Version: \c" ; PACKAGE-NAME --version ; echo "${RESET}"
+#		else
+#			echo "${RED}PACKAGE-NAME failed to install.${RESET}"
+#		fi
+#else
+#	echo  "\nPACKAGE-NAME is already installed. ${GREEN}Version:${RESET} \c" ; PACKAGE-NAME --version
+#    while true ;  do
+#      read -p "Would you like to update it? [y/n] " yn
+#    	case $yn in
+#        	[Yy]* ) brew upgrade PACKAGE-NAME ; break ;;
+#        	[Nn]* ) break ;;
+#        	* ) echo "${RED}Please answer y for yes or n for no.${RESET}" ;;
+#    	esac
+#    done
+#	fi
+#done
+#echo "--------------------"
+
+# ------------------------------------------------------------------------------
+# ************************END CUSTOM PACKAGES***********************************
+# ------------------------------------------------------------------------------
 
 # Terminates script
 if [ -e "$HOME/goinfre/brew/bin/node" ] && [ -e "$HOME/goinfre/brew/bin/npm" ] && [ -e "$HOME/goinfre/brew/bin/bower" ] ; then

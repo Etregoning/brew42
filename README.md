@@ -22,9 +22,9 @@
 ### Example Script ###
 #### Replace `PACKAGE-NAME` with name of package you want to add. No caps. ####
 ```
-if [ ! -e "$HOME/goinfre/brew/bin/PACKAGE-NAME" ] ; then
+if [ ! -e "$GOINFRE/brew/bin/PACKAGE-NAME" ] ; then
   brew install PACKAGE-NAME
-		if [ -e "$HOME/goinfre/brew/bin/PACKAGE-NAME" ] ; then
+		if [ -e "$GOINFRE/brew/bin/PACKAGE-NAME" ] ; then
 			echo "${GREEN}PACKAGE-NAME successfully installed. Version: \c" ; PACKAGE-NAME --version ; echo "${RESET}"
 		else
 			echo "${RED}PACKAGE-NAME failed to install.${RESET}"

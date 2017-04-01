@@ -1,0 +1,68 @@
+#!/usr/bin/env zsh
+
+# To colorize output
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+echo "${YELLOW}Updating all installed packages.${RESET}"
+# Iterates over ~/.brew/bin directory and writes 'brew update' appended by package name into text file
+for FILE in "$HOME"/.brew/bin/* ; do
+  # Trims path from executable name.
+  TRIM=$(basename "$FILE")
+  case "$FILE" in
+    # Ignores .txt files so that generated text file doesn't get added to the list.
+    *.txt) ;;
+    ############################################################################
+    ##### PUT NPM PACKAGES HERE TO IGNORE THEM; NPM PACKAGES HANDLED LATER #####
+    ############################################################################
+    *bower) ;;
+    ############################ END NPM PACKAGES ##############################
+    *) echo "brew upgrade $TRIM" > brew.txt ;;
+  esac
+done
+# Runs contents of generated text file as shell commands, and redirects output to a text file.
+source brew.txt > update.txt
+# Homebrew updates
+echo "${YELLOW}Updating Homebrew and all packages installed through Homebrew${RESET}"
+while read LINE ;  do
+  if [ grep -q Already up-to-date "$LINE" ] ; then
+   echo "${GREEN}Homebrew was already at the latest version.${RESET}"
+   echo "${YELLOW}Version: ${RESET}\c" ; brew --version | tr -d '[A-Z][a-z]' | head -1
+  elif [ grep -q Error "$LINE" ] ; then
+   echo "$LINE \c" | cut -c7 | cut -d ' ' ; echo "was already at the latest version."
+   echo "${YELLOW}Version: ${RESET}\c" ; echo "$LINE" | tr -d '[A-Z][a-z]' | head -1
+  fi
+done <update.txt
+echo "${GREEN}Homebrew and all of it's packages successfully updated.${RESET}"
+
+# npm updates
+echo "${YELLOW}Updating all globally installed npm packages${RESET}"
+for FILE in "$HOME"/.brew/lib/node_modules/* ; do
+  # Trims path from executable name.
+  TRIM=$(basename "$FILE")
+  case "$FILE" in
+    # Ignores .txt files so that generated text file doesn't get added to the list.
+    *.txt) ;;
+    # npm update is handled through Homebrew above.
+    *npm)  ;;
+    *) echo "npm update -g $TRIM" > npm.txt
+        if [ -s npm.txt ] ; then
+          echo "${GREEN}$TRIM is already at the latest version.${RESET}"
+          echo "${YELLOW}Version: ${RESET}" ; $TRIM --version | tr -d '[A-Z][a-z]' | head -1
+          rm npm.txt ;;
+        else
+          # TODO - Error checking; Right now it says successfully if any output is given.
+          echo "${GREEN}$TRIM has been successfully updated."
+          echo "${YELLOW}Version: ${RESET}" ; $TRIM --version | tr -d '[A-Z][a-z]' | head -1
+          rm npm.txt ;;
+        fi
+  esac
+done
+# TODO - Error checking needed here as well.
+echo "${YELLOW}*********************************************************************************************************${RESET}"
+echo "${GREEN}All packages have been installed successfuly.${RESET}"
+echo "${YELLOW}*********************************************************************************************************${RESET}"
+rm brew.txt
+exit

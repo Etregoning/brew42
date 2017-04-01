@@ -1,0 +1,26 @@
+#!/usr/bin/env zsh
+
+# To colorize output
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+read -p "Please enter all Homebrew packages you wish to install, separated by a spaces." PKG
+echo "$PKG" > install.txt
+sed -e 's/\s\+/\n/g' install.txt | sed -i 's/^/brew install /' install.txt
+source install.txt >> install.log
+
+
+
+
+read -p "Please enter all Homebrew packages you wish to install, separated by a spaces." HB
+echo "$HB" > brew.txt
+sed -e 's/\s\+/\n/g' brew.txt | sed -i 's/^/brew install /' brew.txt
+source brew.txt >> brew.log
+
+read -p "Please enter all npm packages you wish to install, separated by a spaces." NPM
+echo "$NPM" > npm.txt
+sed -e 's/\s\+/\n/g' npm.txt | sed -i 's/^/npm install -g /' npm.txt
+source npm.txt >> npm.log
+sh install_status ;;

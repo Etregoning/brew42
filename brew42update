@@ -1,0 +1,54 @@
+#!/usr/bin/env zsh
+
+# To colorize output
+RED="\033[31m"
+GREEN="\033[32m"
+YELLOW="\033[33m"
+RESET="\033[0m"
+
+echo "Currently installed packages are: "
+for FILE in "$HOME"/.brew/bin/* ; do
+  TRIM=$(basename "$FILE")
+  case "$FILE" in
+    *.txt) ;;
+		*brew) ;;
+    *) echo $TRIM ;;
+  esac
+done
+
+while true ; do
+	read -p "Would you like to update or install packages? Answer 'update' or 'install'" ui
+	case $ui in
+		[Updateupdate]* ) echo "${YELLOW}*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*${RESET}" ; break ;;
+		[Installinstall]* ) echo "Homebrew packages in this script: Node, npm." ; echo "npm packages in this script: Bower."
+												read -p "Would you like to install all packages, or choose which to install? Answer 'all' or 'choose'" inst
+												case $inst in
+													[Allall]* ) source packages.txt > packages.log ; sh install_all_status ;;
+													[ChooseChoose]* ) read -p "Please enter all Homebrew packages you wish to install, separated by spaces." HB
+																						echo "$HB" > brew.txt
+																						sed -e 's/\s\+/\n/g' brew.txt | sed -i 's/^/brew install /' brew.txt
+																						source brew.txt >> brew.log
+
+																						read -p "Please enter all npm packages you wish to install, separated by a spaces." NPM
+																						echo "$NPM" > npm.txt
+																						sed -e 's/\s\+/\n/g' npm.txt | sed -i 's/^/npm install -g /' npm.txt
+																						source npm.txt >> npm.log
+																						sh install_status ;;
+												esac
+		* ) echo "I did not understand your input, please try again." ;;
+	esac
+done
+
+while true ; do
+	read -p "Do you want to update all, or choose which packages to update? Answer 'all' or 'choose'" ac
+	case $ac in
+		[Allall]* ) sh update_all ;;
+		[Choosechoose]* ) echo "${YELLOW}*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*${RESET}" ;  break ;;
+		* ) echo "I did not understand your input, please try again."
+	esac
+done
+
+
+
+exec /bin/zsh
+exit
